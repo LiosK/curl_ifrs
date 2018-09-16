@@ -1,6 +1,6 @@
 {
   "name": "curl_ifrs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Utility to download latest unaccompanied IFRS using curl.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,9 +9,17 @@
     "accounting",
     "IFRS"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LiosK/curl_ifrs.git"
+  },
   "author": "LiosK <contact@mail.liosk.net>",
   "license": "Apache-2.0",
   "bin": {
     "build_ifrs_curls": "build_ifrs_curls.js"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/LiosK/curl_ifrs/issues"
+  },
+  "homepage": "https://github.com/LiosK/curl_ifrs"
 }
