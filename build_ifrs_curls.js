@@ -12,7 +12,7 @@ const buildFilename = title => {
     ['SIC-', '4'],
   ]);
   for (const [key, val] of numMap.entries()) {
-    let pf = title.match(new RegExp(`^${key}(\\d+) .*`));
+    const pf = title.match(new RegExp(`^${key}(\\d+) .*`));
     if (pf) {
       return `${val}${('0' + pf[1]).slice(-2)} ${title}.pdf`;
     }
@@ -29,7 +29,7 @@ const buildUrl = (title, baseUrl) => {
     ['SIC-', 'SIC'],
   ]);
   for (const [key, val] of urlMap.entries()) {
-    let pf = title.match(new RegExp(`^${key}(\\d+) .*`));
+    const pf = title.match(new RegExp(`^${key}(\\d+) .*`));
     if (pf) {
       return `${baseUrl}${val}${pf[1]}.pdf`;
     }
