@@ -35,18 +35,13 @@ const main = (baseUrl, titles, irregulars) => {
     return 1;
   }
 
-  const regulars = titles.map(title => [
+  titles.map(title => [
     baseUrl + buildRemoteName(title),
     buildLocalName(title),
-  ]);
-
-  const cookie = 'Cookie: JSESSIONID=' + jsessionid;
-  const printCurl = ([url, saveas]) => {
-    console.log(`curl -H '${cookie}' '${url}' > '${saveas}'`);
-  };
-
-  regulars.forEach(printCurl);
-  irregulars.forEach(printCurl);
+  ]).concat(irregulars).forEach(([url, saveas]) => {
+    const cookie = 'Cookie: JSESSIONID=' + jsessionid;
+    console.log(`curl -H "${cookie}" "${url}" > "${saveas}"`);
+  });
 
   return 0;
 };
