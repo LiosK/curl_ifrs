@@ -4,32 +4,28 @@
 // Define functions
 
 /** Build local filename from title of a Standard */
-const buildLocalName = title => {
-  const conversion = [
-    ['IFRS ', '1'],
-    ['IAS ', '2'],
-    ['IFRIC ', '3'],
-    ['SIC-', '4'],
-  ];
-  return conversion.reduce((prev, [from, to]) => {
-    const pf = title.match(new RegExp(`^${from}(\\d+) .*`));
-    return pf ? to + ('0' + pf[1]).slice(-2) + ' ' + title : prev;
-  }, title) + '.pdf';
-};
+const buildLocalName = title => [
+  // Conversion table
+  ['IFRS ', '1'],
+  ['IAS ', '2'],
+  ['IFRIC ', '3'],
+  ['SIC-', '4'],
+].reduce((prev, [from, to]) => {
+  const pf = title.match(new RegExp(`^${from}(\\d+) .*`));
+  return pf ? to + ('0' + pf[1]).slice(-2) + ' ' + title : prev;
+}, title) + '.pdf';
 
 /** Build remote filename from title of a Standard */
-const buildRemoteName = title => {
-  const conversion = [
-    ['IFRS ', 'IFRS'],
-    ['IAS ', 'IAS'],
-    ['IFRIC ', 'IFRIC'],
-    ['SIC-', 'SIC'],
-  ];
-  return conversion.reduce((prev, [from, to]) => {
-    const pf = title.match(new RegExp(`^${from}(\\d+) .*`));
-    return pf ? to + pf[1] : prev;
-  }, title) + '.pdf';
-};
+const buildRemoteName = title => [
+  // Conversion table
+  ['IFRS ', 'IFRS'],
+  ['IAS ', 'IAS'],
+  ['IFRIC ', 'IFRIC'],
+  ['SIC-', 'SIC'],
+].reduce((prev, [from, to]) => {
+  const pf = title.match(new RegExp(`^${from}(\\d+) .*`));
+  return pf ? to + pf[1] : prev;
+}, title) + '.pdf';
 
 const main = (baseUrl, titles, irregulars) => {
   const jsessionid = process.argv[2] || '';

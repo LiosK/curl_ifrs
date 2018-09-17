@@ -1,6 +1,6 @@
 {
   "name": "curl_ifrs",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Utility to download latest unaccompanied IFRS using curl.",
   "scripts": {
     "test": "build_ifrs_curls \\$JSESSIONID | diff -u test/output.sh -"
