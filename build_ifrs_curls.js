@@ -3,38 +3,32 @@
 
 // Define functions
 
-/** Build downloaded filename from Standard title */
-const buildFilename = title => {
-  const numMap = new Map([
+/** Build local filename from title of a Standard */
+const buildLocalName = title => {
+  const conversion = [
     ['IFRS ', '1'],
     ['IAS ', '2'],
     ['IFRIC ', '3'],
     ['SIC-', '4'],
-  ]);
-  for (const [key, val] of numMap.entries()) {
-    const pf = title.match(new RegExp(`^${key}(\\d+) .*`));
-    if (pf) {
-      return `${val}${('0' + pf[1]).slice(-2)} ${title}.pdf`;
-    }
-  }
-  return `${title}.pdf`;
+  ];
+  return conversion.reduce((prev, [from, to]) => {
+    const pf = title.match(new RegExp(`^${from}(\\d+) .*`));
+    return pf ? to + ('0' + pf[1]).slice(-2) + ' ' + title : prev;
+  }, title) + '.pdf';
 };
 
-/** Build download URL from Standard title */
-const buildUrl = (title, baseUrl) => {
-  const urlMap = new Map([
+/** Build remote filename from title of a Standard */
+const buildRemoteName = title => {
+  const conversion = [
     ['IFRS ', 'IFRS'],
     ['IAS ', 'IAS'],
     ['IFRIC ', 'IFRIC'],
     ['SIC-', 'SIC'],
-  ]);
-  for (const [key, val] of urlMap.entries()) {
-    const pf = title.match(new RegExp(`^${key}(\\d+) .*`));
-    if (pf) {
-      return `${baseUrl}${val}${pf[1]}.pdf`;
-    }
-  }
-  return `${baseUrl}${title}.pdf`;
+  ];
+  return conversion.reduce((prev, [from, to]) => {
+    const pf = title.match(new RegExp(`^${from}(\\d+) .*`));
+    return pf ? to + pf[1] : prev;
+  }, title) + '.pdf';
 };
 
 const main = (baseUrl, titles, irregulars) => {
@@ -45,15 +39,17 @@ const main = (baseUrl, titles, irregulars) => {
     return 1;
   }
 
+  const regulars = titles.map(title => [
+    baseUrl + buildRemoteName(title),
+    buildLocalName(title),
+  ]);
+
   const cookie = 'Cookie: JSESSIONID=' + jsessionid;
-  const printCurl = (url, filename) => {
-    console.log(`curl -H '${cookie}' '${filename}' > '${url}'`);
+  const printCurl = ([url, saveas]) => {
+    console.log(`curl -H '${cookie}' '${url}' > '${saveas}'`);
   };
 
-  new Map(titles.map(title => [
-    buildUrl(title, baseUrl),
-    buildFilename(title),
-  ])).forEach(printCurl);
+  regulars.forEach(printCurl);
   irregulars.forEach(printCurl);
 
   return 0;
@@ -127,12 +123,12 @@ const titles = [
   'SIC-32 Intangible Assets—Web Site Costs',
 ];
 
-const irregulars = new Map([
+const irregulars = [
   [baseUrl + 'framework.pdf', '100 Conceptual Framework for Financial Reporting.pdf'],
   [baseUrl + 'SIC07.pdf', '407 SIC-7 Introduction of the Euro.pdf'],
   [baseUrl + 'PS01.pdf', '501 Practice Statement 1: Management Commentary.pdf'],
   [baseUrl + 'PS02.pdf', '502 Practice Statement 2: Making Materiality Judgements.pdf'],
-]);
+];
 
 
 // Run
