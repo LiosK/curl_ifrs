@@ -28,22 +28,24 @@ const buildRemoteName = title => [
 }, title) + '.pdf';
 
 const main = (baseUrl, titles, irregulars) => {
-  const jsessionid = process.argv[2] || '';
-  if (jsessionid === '') {
-    console.error('Error: No JSESSIONID argument; Locate it in Cookie');
-    console.error('Usage: build_ifrs_curls JSESSIONID | bash');
-    return 1;
+  const prog = 'build_ifrs_curls';
+  const usage = process.argv[2] || '';
+  if (usage === '-h') {
+    console.log(`Usage: { ${prog}; echo ${prog}::execute JSESSIONID } | bash`);
+    console.log('Login to eIFRS and locate your JSESSIONID in Cookie.');
+    return;
   }
 
-  titles.map(title => [
+  const curls = titles.map(title => [
     baseUrl + buildRemoteName(title),
     buildLocalName(title),
-  ]).concat(irregulars).forEach(([url, saveas]) => {
-    const cookie = 'Cookie: JSESSIONID=' + jsessionid;
-    console.log(`curl -H "${cookie}" "${url}" > "${saveas}"`);
-  });
+  ]).concat(irregulars).map(
+    ([url, saveas]) => `curl -H "Cookie: JSESSIONID=$1" "${url}" > "${saveas}"`
+  );
 
-  return 0;
+  console.log(prog + '::execute() {');
+  curls.forEach(e => { console.log('  ' + e); });
+  console.log('} # Call `' + prog + '::execute JSESSIONID`');
 };
 
 
@@ -123,4 +125,4 @@ const irregulars = [
 
 
 // Run
-process.exit(main(baseUrl, titles, irregulars));
+main(baseUrl, titles, irregulars);

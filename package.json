@@ -1,9 +1,9 @@
 {
   "name": "curl_ifrs",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "Utility to download latest unaccompanied IFRS using curl.",
   "scripts": {
-    "test": "build_ifrs_curls \\$JSESSIONID | diff -u test/output.sh -"
+    "test": "build_ifrs_curls | diff -u test/output.sh -"
   },
   "keywords": [
     "accounting",
