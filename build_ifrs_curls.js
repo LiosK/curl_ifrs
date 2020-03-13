@@ -110,6 +110,7 @@ const titles = [
   'IFRIC 21 Levies',
   'IFRIC 22 Foreign Currency Transactions and Advance Consideration',
   'IFRIC 23 Uncertainty over Income Tax Treatments',
+  'SIC-7 Introduction of the Euro',
   'SIC-10 Government Assistance—No Specific Relation to Operating Activities',
   'SIC-25 Income Taxes—Changes in the Tax Status of an Entity or its Shareholders',
   'SIC-29 Service Concession Arrangements: Disclosures',
@@ -117,8 +118,8 @@ const titles = [
 ];
 
 const irregulars = [
+  [baseUrl + 'preface.pdf', '000 Preface to International Financial Reporting Standards.pdf'],
   [baseUrl + 'framework.pdf', '100 Conceptual Framework for Financial Reporting.pdf'],
-  [baseUrl + 'SIC07.pdf', '407 SIC-7 Introduction of the Euro.pdf'],
   [baseUrl + 'PS01.pdf', '501 Practice Statement 1: Management Commentary.pdf'],
   [baseUrl + 'PS02.pdf', '502 Practice Statement 2: Making Materiality Judgements.pdf'],
 ];
